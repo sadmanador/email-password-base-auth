@@ -1,6 +1,7 @@
 import './App.css';
 import { getAuth } from "firebase/auth";
 import app from './firebase/firebase.init';
+import BootstrapForm from './components/Bootstrap-form/Bootstrap-Form';
 
 const auth = getAuth(app);
 
@@ -9,28 +10,23 @@ const handleRegister = event => {
   event.preventDefault();
   const email = event.target.email.value;
   const password = event.target.password.value;
-  console.log(email, password);
 }
 
 //onChange handler can detect the change
 const handleEmailChange = event => {
   const email = event.target.value;
-  console.log(email)
 }
 
 const handlePasswordChange = event => {
-const password = event.target.value;
-console.log(password);
+  const password = event.target.value
 }
 
 const handleEmailOnBlur = event => {
   const email = event.target.value;
-  console.log(email)
 }
 
 const handleEmailOnFocus = event => {
   const email = event.target.value;
-  console.log(email)
 }
 
 function App() {
@@ -41,6 +37,8 @@ function App() {
         <input onChange={handlePasswordChange} type="password" name="password" id="" placeholder='Your Password' /><br />
         <button type='submit'>Register</button>
       </form>
+
+      <BootstrapForm></BootstrapForm>
     </div>
   );
 }
