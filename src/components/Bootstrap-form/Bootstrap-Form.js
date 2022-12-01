@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import app from '../../firebase/firebase.init'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ function BootstrapForm() {
 
     const handleFormSubmit = event => {
         event.preventDefault();
-        
+
         setSuccessSignUp(false);
         const form = event.target;
         const email = form.email.value;
@@ -37,10 +37,18 @@ function BootstrapForm() {
                 const user = result.user;
                 setSuccessSignUp(true);
                 form.reset();
+                verifyEmail();
             })
             .catch(error => {
                 console.error('error: ', error);
                 setPasswordError(error.message);
+            })
+    }
+
+    const verifyEmail = () => {
+        sendEmailVerification(auth.currentUser)
+            .then(() => {
+                alert('Please check your email and verify')
             })
     }
 
