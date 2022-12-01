@@ -8,11 +8,15 @@ const auth = getAuth(app);
 
 function BootstrapForm() {
     const [passwordError, setPasswordError] = useState('');
+    const [successSignUp, setSuccessSignUp] = useState(false)
 
     const handleFormSubmit = event => {
         event.preventDefault();
-        const email = event.target.email.value;
-        const password = event.target.password.value;
+        
+        successSignUp(false);
+        const form = event.target;
+        const email = form.email.value;
+        const password = form.password.value;
         if (!/(?=.*[A-Z].*[A-z])/.test(password)) {
             setPasswordError('Please provide at least tow capital latter');
             return
@@ -30,10 +34,12 @@ function BootstrapForm() {
         createUserWithEmailAndPassword(auth, email, password)
             .then(result => {
                 const user = result.user;
-                console.log(user);
+                setSuccessSignUp(true);
+                form.reset();
             })
             .catch(error => {
-                console.error('error: ', error)
+                console.error('error: ', error);
+                setPasswordError(error.message);
             })
     }
 
@@ -50,6 +56,7 @@ function BootstrapForm() {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" name='password' placeholder="Password" required />
                 </Form.Group>
+                {successSignUp && <p className='text-success'>User successfully created</p>}
                 <p className='text-danger'>{passwordError}</p>
                 <Button variant="primary" type="submit">
                     Register
