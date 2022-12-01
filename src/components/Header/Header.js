@@ -1,12 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import './Header.css'
 
 const Header = () => {
     return (
         <nav>
-            <NavLink to='/'>Home</NavLink>
-            <NavLink to='/'>Google & Github Login</NavLink>
-            <NavLink to='/bootstrapForm'>Email Login</NavLink>
+            <NavLink className={({isActive})=>isActive ? 'active__link' : undefined} to='/'>Home</NavLink>
+            <NavLink className={({isActive})=>isActive ? 'active__link' : undefined} to='/'>Google & Github Login</NavLink>
+            <NavLink className={({isActive})=>isActive ? 'active__link' : undefined} to='/bootstrapForm'>Email Login</NavLink>
         </nav>
     );
 };
