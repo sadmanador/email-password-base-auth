@@ -3,17 +3,18 @@ import Form from 'react-bootstrap/Form';
 import app from '../../firebase/firebase.init'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const auth = getAuth(app);
 
 function BootstrapForm() {
     const [passwordError, setPasswordError] = useState('');
-    const [successSignUp, setSuccessSignUp] = useState(false)
+    const [successSignUp, setSuccessSignUp] = useState(false);
 
     const handleFormSubmit = event => {
         event.preventDefault();
         
-        successSignUp(false);
+        setSuccessSignUp(false);
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
@@ -61,6 +62,7 @@ function BootstrapForm() {
                 <Button variant="primary" type="submit">
                     Register
                 </Button>
+                <p><small>Already have an account? Please <Link to='/login'>Login</Link></small></p>
             </Form>
         </div>
     );
