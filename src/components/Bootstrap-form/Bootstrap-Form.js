@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import app from '../../firebase/firebase.init'
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -17,7 +17,10 @@ function BootstrapForm() {
         setSuccessSignUp(false);
         const form = event.target;
         const email = form.email.value;
+        const name = form.name.value
         const password = form.password.value;
+
+
         if (!/(?=.*[A-Z].*[A-z])/.test(password)) {
             setPasswordError('Please provide at least tow capital latter');
             return
@@ -32,12 +35,15 @@ function BootstrapForm() {
         }
         setPasswordError('');
 
+
+
         createUserWithEmailAndPassword(auth, email, password)
             .then(result => {
                 const user = result.user;
                 setSuccessSignUp(true);
                 form.reset();
                 verifyEmail();
+                updateUserName(name);
             })
             .catch(error => {
                 console.error('error: ', error);
@@ -52,10 +58,19 @@ function BootstrapForm() {
             })
     }
 
+    const updateUserName = (name) => {
+        updateProfile(auth.currentUser, {
+            displayName: name
+        })
+            .then(() => console.log('DisplayName updated'))
+            .catch(error => console.error('error: ', error))
+    }
+
     return (
         <div className="w-50 mx-auto">
             <h3 className='text-warning'>Please register</h3>
             <Form onSubmit={handleFormSubmit}>
+                <input type="text" name='name' placeholder='Your Name' />
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control type="email" name='email' placeholder="Enter email" required />
